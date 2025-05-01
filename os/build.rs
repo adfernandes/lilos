@@ -3,11 +3,19 @@
 // file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 fn main() {
+    if let Ok(lines) = std::fs::read_to_string("build.env") {
+        for line in lines.lines() {
+            if let Some((key, value)) = line.split_once('=') {
+                unsafe { std::env::set_var(key, value); }
+            }
+        }
+    }
+
     println!(r#"cargo:rustc-check-cfg=cfg(lilos_has_basepri)"#);
     println!(r#"cargo:rustc-check-cfg=cfg(lilos_has_native_rmw)"#);
 
     match std::env::var("TARGET").unwrap().as_str() {
-        "thumbv7m-none-eabi" | "thumbv7em-none-eabi" | "thumbv7em-none-eabihf" => {
+        "thumbv7m-none-eabi" | "thumbv7em-none-eabi" | "thumbv7em-none-eabihf" | "thumbv8m.main-none-eabi" | "thumbv8m.main-none-eabihf" => {
             // Turn on BASEPRI support for interrupt priority filtering.
             println!("cargo:rustc-cfg=lilos_has_basepri");
             // Use native atomic RMW operations

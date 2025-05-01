@@ -13,7 +13,7 @@ repository.workspace = true
 rust-version.workspace = true
 
 [package.metadata.docs.rs]
-default-target = "thumbv7em-none-eabihf"
+default-target = "thumbv8m.main-none-eabihf"
 
 [dependencies]
 lilos.workspace = true

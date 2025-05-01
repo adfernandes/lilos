@@ -17,6 +17,7 @@ for k in ${!MODES[@]}; do
     echo "---- building OS with: ${MODES[$k]}"
     pushd os > /dev/null
     cargo build --no-default-features ${MODES[$k]}
+    cargo build --release --no-default-features ${MODES[$k]}
     popd > /dev/null
 done
 
@@ -29,5 +30,6 @@ for d in $DIRS; do
     echo "---- building in $d"
     pushd $d > /dev/null
     cargo build
+    cargo build --release
     popd > /dev/null
 done
